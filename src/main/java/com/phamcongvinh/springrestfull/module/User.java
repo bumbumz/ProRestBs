@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.phamcongvinh.springrestfull.service.TokenService;
 import com.phamcongvinh.springrestfull.util.constrant.EnumGender;
 
 import jakarta.persistence.Column;
@@ -59,14 +60,14 @@ public class User {
 
     @PrePersist
     public void beforeCreate() {
-        this.createdBy = "";
+        this.createdBy = TokenService.getCurrentUserLogin().isPresent() ? TokenService.getCurrentUserLogin().get() : "";
 
         this.createdAt = Instant.now();
     }
 
     @PreUpdate
     public void beforeUpdate() {
-        this.updatedBy = "";
+        this.updatedBy = TokenService.getCurrentUserLogin().isPresent() ? TokenService.getCurrentUserLogin().get() : "";
 
         this.updatedAt = Instant.now();
     }

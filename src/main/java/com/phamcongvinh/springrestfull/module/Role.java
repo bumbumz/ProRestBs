@@ -12,34 +12,34 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "permissions")
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Permission {
+@Table(name = "roles")
+public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String apiPath;
-    private String method;
-    private String module;
+    @NotBlank(message = "Không được để trống trường name")
     private String name;
-    // ==================================================================
+
+    private String description;
+
+    private boolean active;
+    // ===========================================================================
+
     private Instant createdAt;
+
     private Instant updatedAt;
+
     private String createdBy;
+
     private String updatedBy;
 
     @PrePersist
     public void beforeCreate() {
+
         this.createdBy = TokenService.getCurrentUserLogin().isPresent() ? TokenService.getCurrentUserLogin().get() : "";
 
         this.createdAt = Instant.now();
@@ -51,4 +51,5 @@ public class Permission {
 
         this.updatedAt = Instant.now();
     }
+
 }
