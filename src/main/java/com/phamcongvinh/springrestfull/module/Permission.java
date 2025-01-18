@@ -1,13 +1,19 @@
 package com.phamcongvinh.springrestfull.module;
 
 import java.time.Instant;
+import java.util.List;
 
+import org.hibernate.annotations.ManyToAny;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.phamcongvinh.springrestfull.service.TokenService;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -32,6 +38,10 @@ public class Permission {
     private String method;
     private String module;
     private String name;
+    // ====================================================================
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
+    @JsonIgnore
+    private List<Role> roles;
     // ==================================================================
     private Instant createdAt;
     private Instant updatedAt;
