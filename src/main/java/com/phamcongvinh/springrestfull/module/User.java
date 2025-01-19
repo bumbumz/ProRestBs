@@ -52,6 +52,10 @@ public class User {
     private String address;
     @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
+    //=========================================================================
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
     // =========================================================================
     private Instant createdAt;
     private Instant updatedAt;

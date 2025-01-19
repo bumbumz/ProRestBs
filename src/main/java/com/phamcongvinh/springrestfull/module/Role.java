@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.phamcongvinh.springrestfull.service.TokenService;
 
@@ -17,13 +18,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
+@Setter
+@Getter
 public class Role {
 
     @Id
@@ -37,6 +43,11 @@ public class Role {
 
     private boolean active;
     // ===========================================================================
+    //user------------------------------------------------------------------------
+    @OneToMany(mappedBy = "role",fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<User> users;
+    //permission-------------------------------------------------------------------
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "roles" })
