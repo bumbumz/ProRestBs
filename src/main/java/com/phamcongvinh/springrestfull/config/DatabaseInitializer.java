@@ -38,31 +38,31 @@ public class DatabaseInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         System.out.println("INIT DATABESE");
-        long countUser=this.userRepository.count();
-        long countPer= this.permissionRepository.count();
-        long countRole= this.roleRepository.count();
+        long countUser = this.userRepository.count();
+        long countPer = this.permissionRepository.count();
+        long countRole = this.roleRepository.count();
 
-        if(countPer==0)
-        {
-            List<Permission> arr= new ArrayList<>();
+        if (countPer == 0) {
+            List<Permission> arr = new ArrayList<>();
+
+            arr.add(new Permission("Get by id user", "/api/v1/users/{id}", "GET", "USERS"));
+            arr.add(new Permission("Get filter user", "/api/v1/users", "GET", "USERS"));
             arr.add(new Permission("Create a user", "/api/v1/users", "POST", "USERS"));
             arr.add(new Permission("Update a user", "/api/v1/users", "PUT", "USERS"));
             arr.add(new Permission("Delete a user", "/api/v1/users/{id}", "DELETE", "USERS"));
             this.permissionRepository.saveAll(arr);
         }
-        if(countRole==0)
-        {
-            List<Permission> arrPer= this.permissionRepository.findAll();
-            Role role= new Role();
+        if (countRole == 0) {
+            List<Permission> arrPer = this.permissionRepository.findAll();
+            Role role = new Role();
             role.setName("SUPER_ADMIN");
             role.setDescription("admin");
             role.setActive(true);
             role.setPermissions(arrPer);
             this.roleRepository.save(role);
         }
-        if(countUser==0)
-        {
-            User user=new User();
+        if (countUser == 0) {
+            User user = new User();
             user.setName("admin");
             user.setEmail("admin@gmail.com");
             user.setPassword(passwordEncoder.encode("123456"));
@@ -75,13 +75,11 @@ public class DatabaseInitializer implements CommandLineRunner {
             }
             this.userRepository.save(user);
 
-
         }
         if (countRole > 0 && countPer > 0 && countUser > 0) {
             System.out.println(">>> SKIP INIT DATABASE ~ ALREADY HAVE DATA...");
         } else
             System.out.println(">>> END INIT DATABASE");
-    
 
     }
 }
