@@ -15,7 +15,7 @@ public class PermissionInterceptorConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         String[] whiteList = {
-                "/", "/api/v1/auth/**",
+                "/", "/api/v1/auth/**", "/api/v1/email"
 
         };
         // khai báo các api không muốn phân quyền
