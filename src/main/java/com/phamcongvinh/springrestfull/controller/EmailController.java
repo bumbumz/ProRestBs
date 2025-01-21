@@ -2,6 +2,7 @@ package com.phamcongvinh.springrestfull.controller;
 
 import java.util.Optional;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ public class EmailController {
     // }
 
     @GetMapping("/email")
+    @Scheduled(cron = "*/60 * * * * *")
     public String sendSimpleEmail() {
 
         this.emailService.sendEmailFromTemplateSync(
